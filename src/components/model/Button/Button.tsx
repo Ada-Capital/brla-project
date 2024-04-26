@@ -28,9 +28,11 @@ const Button: React.FC<ButtonProps> = ({
         col-span-2 my-2`, classname
     )
 
+
     return (
 
         <button 
+        onClick={onClick}
         {...rest}
         type={type} 
         disabled = {disabled}

@@ -117,7 +117,7 @@ const ConversionStep1: React.FC = () => {
 
 
     const handleSubmit = async () => {
-
+        console.log("teste 1")
         if ((isUsdToBrla(state)) || isBrlaToUsd(state)) {   
 
             if(webSocketState.webSocket) {

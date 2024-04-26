@@ -35,8 +35,9 @@ const ConversionContainer:React.FC<ConversionConfig> = ({
     }, [buttonControl]);
 
     const handleSubmit = () => {
-
+console.log("teste 2")
         if(onSubmit) {
+            console.log("teste 3")
             onSubmit();
         }
 
@@ -70,7 +71,6 @@ const ConversionContainer:React.FC<ConversionConfig> = ({
        
             {children}
          
-
             <Button 
                 onClick={handleSubmit}
                 text = {buttonComponent}

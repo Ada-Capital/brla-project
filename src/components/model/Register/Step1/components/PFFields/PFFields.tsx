@@ -29,7 +29,44 @@ export const PFFields = ({fields,register, errors, control}:PFFieldsProps) => {
     const {docType, handleDocTypeChange} = useDocumentType();
     
     return (<>
+<div className="my-3 flex-col flex">
 
+
+<Controller
+control={control}
+{...register('country')} 
+rules={{required:true}}
+render={({ field }) => (
+
+<Select
+    options={countries}
+    isSearchable
+    ref={field.ref}
+    placeholder={t('País')}
+    onChange={value => {
+
+        if(value){
+          setCountry(value?.label)
+        }
+ 
+
+        field.onChange(value?.label)
+    }}
+   
+/>
+
+)}
+
+/> 
+
+{errors.country && <TextModel
+          addons={`text-sm`}
+          color={TEXT_RED_600}
+          content={errors.country.message}
+      />}
+
+
+</div>
     {fields.map((item, index) => {
 
         return (
@@ -60,6 +97,8 @@ export const PFFields = ({fields,register, errors, control}:PFFieldsProps) => {
    
 
       })} 
+
+
 
           {isRegnum(state.country) && (
 
@@ -109,44 +148,7 @@ export const PFFields = ({fields,register, errors, control}:PFFieldsProps) => {
 
       </div>
 
-      <div className="my-3 flex-col flex">
-
-
-        <Controller
-        control={control}
-        {...register('country')} 
-        rules={{required:true}}
-        render={({ field }) => (
-
-        <Select
-            options={countries}
-            isSearchable
-            ref={field.ref}
-            placeholder={t('País')}
-            onChange={value => {
-
-                if(value){
-                  setCountry(value?.label)
-                }
-         
-
-                field.onChange(value?.label)
-            }}
-           
-        />
-
-        )}
-
-        /> 
-
-        {errors.country && <TextModel
-                  addons={`text-sm`}
-                  color={TEXT_RED_600}
-                  content={errors.country.message}
-              />}
-
-
-      </div>
+     
 
      </>)
 

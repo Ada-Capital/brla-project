@@ -1,7 +1,6 @@
 import { FormActions, useRegister } from "../../../../../../../context/Register/FormContext"
+import { formatDate } from "../../../../../../../service/DateService/formatDate";
 import { Register1State, RegisterActions } from "../../../context/Register1Context";
-
-
 
 export const useSubmit = () => {
 
@@ -32,7 +31,7 @@ export const useSubmit = () => {
                 taxIdType: 'CPF',
                 country: data.country,
                 cpf: data.cpf,
-                birthDate: data.birthDate
+                birthDate: formatDate(data.birthDate)
 
 
             }

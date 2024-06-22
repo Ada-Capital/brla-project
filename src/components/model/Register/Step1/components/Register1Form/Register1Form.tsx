@@ -22,6 +22,7 @@ import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 import { REGISTER_2 } from "../../../../../../contants/Paths/paths";
 import { countries } from "../../../../../../contants/Countries/countries";
+import { TermAndServiceCheckBox } from "../TermAndService/TermAndService";
 
 
 
@@ -258,7 +259,8 @@ export const Register1Form = () => {
               </div>
             
             }
-
+            <TermAndServiceCheckBox/>
+            
             <PersonTypeCheckBox onClick={handlePersonTypeCLick} />
 
             {state.isPJ && 

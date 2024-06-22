@@ -80,7 +80,7 @@ export const AuthForm = () => {
 
         } else {
 
-            setButtonclassname(POINTS_NONE)
+            setButtonclassname(POINTS_ALL)
 
         }
 

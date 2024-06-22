@@ -18,7 +18,7 @@ export async function registerController  (data:FormState) {
 
 
     } catch (error: any) {
-
+      throw error
       console.error('Error during register:', error.response?.data || error.message);
       
     }

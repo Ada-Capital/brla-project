@@ -59,18 +59,40 @@ const FormStep3: React.FC = () => {
         setConfirmPasswordChanged(true);
     };
 
+    type ErrorType  = {
+        error: string
+    };
+
+
+    const handleRegister = async () => {
+        
+        try {
+         await  registerController(state);
+         navigate(REGISTER_4);
+            
+        } catch (e) {
+            const j = e as any
+            const errorApi =j.response.data as ErrorType;
+            setCreateResponseApi(typeof errorApi.error === 'string' ? errorApi.error : 'Ocorreu um erro desconhecido.');
+            setIserror(true)
+        }
+    }
+
     const onSubmit = (data: PasswordProps) => {
         
         const { password, confirmPassword } = data;
-
+    
         dispatch({
             type: FormActions.setStep3,
             payload: { password, confirmPassword },
         });
-
-        navigate(REGISTER_4);
-
     };
+    
+    useEffect(() => {
+        if (state.password && state.confirmPassword) {
+            handleRegister();
+        }
+    }, [state]);
 
     useEffect(()=> {
 
@@ -88,7 +110,7 @@ const FormStep3: React.FC = () => {
     return (
         <>
 
-
+{isError &&<CreateAlert  alertType="failure" alertMessage={createResponseApi} />}
         <Form.Container>
 
                 <Form.Wrapper>
@@ -104,7 +126,7 @@ const FormStep3: React.FC = () => {
                      <ErrorsPassword  errors={customErrors}/>
                     }
 
-                    <Button text = {'Próximo'} />
+                    <Button text = {'PrÃ³ximo'} />
 
                     </form>
                     
@@ -114,7 +136,7 @@ const FormStep3: React.FC = () => {
 
         </Form.Container>
 
-        {isError &&<div><CreateAlert alertType="failure" alertMessage={createResponseApi} /></div>}
+        
         </>
     );
 };

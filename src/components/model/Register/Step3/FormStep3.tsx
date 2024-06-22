@@ -17,10 +17,13 @@ import { useNavigate } from "react-router-dom";
 import { ErrorsPassword } from "./components/ErrorsPassword/ErrorsPassword";
 import { PasswordProps } from "./@types/PasswordProps";
 import { Register3Fields } from "./components/Register3Form/Register3Fields";
-
-
+import { CreateAlert } from "../../AlertCreate/AlertCreate";
+import { registerController } from "../../../../controller/RegisterController/RegisterController";
 
 const FormStep3: React.FC = () => {
+
+    const [createResponseApi, setCreateResponseApi] = useState<string>('');
+    const [isError, setIserror] = useState(false);
     
     const {state} = useRegister();
 
@@ -83,7 +86,7 @@ const FormStep3: React.FC = () => {
 
 
     return (
-        
+        <>
 
 
         <Form.Container>
@@ -111,6 +114,8 @@ const FormStep3: React.FC = () => {
 
         </Form.Container>
 
+        {isError &&<div><CreateAlert alertType="failure" alertMessage={createResponseApi} /></div>}
+        </>
     );
 };
 

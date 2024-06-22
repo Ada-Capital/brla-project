@@ -30,6 +30,7 @@
     "decimal.js": "^10.4.3",
     "express": "^4.19.0",
     "flowbite": "^2.3.0",
+    "flowbite-react": "^0.10.1",
     "i18next": "^23.11.2",
     "i18next-browser-languagedetector": "^7.2.1",
     "i18next-http-backend": "^2.5.0",

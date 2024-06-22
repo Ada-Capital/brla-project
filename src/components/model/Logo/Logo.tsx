@@ -15,7 +15,7 @@ const Logo: React.FC = () => {
     <div className={`flex justify-center items-center ${GAP_DEFAULT}`} 
       onClick={() => userLogged ? navigate(TO_HOME) : ''}
       >
-        <img src='/logo.svg' alt='Logo of BRLA' className='w-8' />
+        <img src='/Logo.svg' alt='Logo of BRLA' className='w-8' />
         <h2 className='text-3xl font-bold text-heading-blue'>BRLA</h2>
     </div>
     

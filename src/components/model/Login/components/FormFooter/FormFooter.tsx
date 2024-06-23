@@ -16,8 +16,7 @@ export const FormFooter = () => {
             addons={'text-sm'}
             content={
                 <>
-                    Não tem conta ainda?{' '}
-                    <Link className="hover:underline" to={REGISTER_1}>Cadastre-se</Link>
+                    <Link className="hover:underline" to={REGISTER_1}>Não tem conta ainda? Cadastre-se</Link>
                 </>
             } 
         />

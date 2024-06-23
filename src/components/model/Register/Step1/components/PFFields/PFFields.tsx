@@ -108,8 +108,8 @@ render={({ field }) => (
                 
               <InputModel 
 
-                  name="dataRegnum.documentType"
-                  placeholder="Document type"
+                  name="dataRegnum.regnum"
+                  placeholder="Document number"
                   type="text"
                   onChange={handleDocTypeChange}
                   value={docType}
@@ -117,12 +117,12 @@ render={({ field }) => (
 
                   />
 
-                  {errors.dataRegnum?.documentType && (
+                  {errors.dataRegnum?.regnum && (
 
                   <TextModel
                       addons={`text-sm`}
                       color={TEXT_RED_600}
-                      content={errors.dataRegnum?.documentType?.message}
+                      content={errors.dataRegnum?.regnum?.message}
                   />
                   )}
 

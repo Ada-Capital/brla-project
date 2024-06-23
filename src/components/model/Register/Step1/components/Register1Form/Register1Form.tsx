@@ -28,9 +28,9 @@ import { TermAndServiceCheckBox } from "../TermAndService/TermAndService";
 
 
 export const Register1Form = () => {
-
-
-    const {state} = useRegisterForStep1();
+   
+  
+  const {state} = useRegisterForStep1();
     const {t, i18n} = useTranslation();
     const {handleCnpjValidation} = useCnpj();
     const {cpf, handleCpfChange, handleCpfValidation} = useCpf();
@@ -42,35 +42,39 @@ export const Register1Form = () => {
     const navigate = useNavigate();
 
     const register1Schema = z.object({
-
+     
       email: z.string().email(t("Email não pode ser vazio")),
-    
-      // phone: z.string().min(1, t("O Telefone precisa ser preenchido")).refine(phone => handlePhoneValidation(phone),{message: 'Insira um telefone válido!'}),
 
+      phone: z.string().min(1, t("O Telefone precisa ser preenchido")).min(1,t('O telefone não pode ficar vazio')),
+      
       fullname: z.string().min(1,t('O nome não pode ficar vazio')),
-
-      cpf: z.string().min(1,t('CPF não pode ficar vazio')).refine(cpf => handleCpfValidation(cpf),{message:"CPF inválido"}),
-
+     
+      cpf: z.string().optional().refine(cpf => {
+        if (!isRegnum(state.country)) {
+            return handleCpfValidation(cpf || '');
+        }
+        return true;
+    }, { message: "CPF inválido" }),
+      
       birthDate: z.string().min(1,t('Insira sua data de aniversário')),
 
       ...(isRegnum(state.country) && {
 
         dataRegnum : z.object({
 
-          documentType : z.string().min(1,t('Document type is required!')),
-  
-          regnumPhone: z.string().min(1, t("O Telefone precisa ser preenchido")),
-
+      
+          regnum : z.string().min(1,t('Document number is required!')),
+      
         }).optional(),
-
+      
       }),
-
+      
       country: z.string({required_error: t('País é necessário para o cadastro!')}),
-
+      
       ...(state.isPJ &&{
-
+      
         dataPJ: z.array(z.object({
-          
+      
           ...(!isRegnum(state.country) && {
             cnpj: z.string({required_error: t('CNPJ é necessário para o cadastro!')})
             .min(1,t('CNPJ não pode ficar vazio'))
@@ -78,7 +82,7 @@ export const Register1Form = () => {
           }),
           startDate: z.string().min(1, t('A data não pode ser vazia')),
           companyName: z.string().min(1, t('O nome não pode ser vazio')),
-  
+
         })).optional(),
 
       })
@@ -89,7 +93,7 @@ export const Register1Form = () => {
       resolver: zodResolver(register1Schema),
       mode: 'all',
       criteriaMode: 'all',
-
+    
     });
 
 
@@ -101,25 +105,25 @@ export const Register1Form = () => {
     });
 
     const handlePersonTypeCLick = () => {
-
+   
       append(
 
         {
-
-         cnpj: '',
+        
+          cnpj: '',
          startDate: '',
          companyName: '',
-
+      
         }
-
+      
       )
 
       if(fields.length===1){
         remove(fields.length-1)
       }
-
-    }
     
+    }
+
     const pfFields: Field[] = [
   
       { type: "email", 
@@ -166,23 +170,22 @@ export const Register1Form = () => {
      
     ];
 
-
+    
     const onSubmit = (data:Register1State) => {
-      
-      console.log(data);
+    
       
       const cases = {
-
+       
         actions: {
-
+       
           submitForPj: state.isPJ && !isRegnum(state.country),
           submitForPf: !state.isPJ && !isRegnum(state.country),
           submitForRegnum: isRegnum(state.country)
-
+        
         }
 
       }
-
+      
       
       if(cases.actions.submitForPf) {
         data.phone = phone
@@ -208,78 +211,78 @@ export const Register1Form = () => {
 
     return (
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          
+<form onSubmit={handleSubmit(onSubmit)}>
+
             <PFFields
 
-              fields={pfFields}
+fields={pfFields}
               register={register} 
               control={control} 
               errors={errors}
 
-              />
+/>
 
-            {
-
-              <div>
-
-                  <Controller
-
-                          control={control}
-                          name={"dataRegnum.regnumPhone"}
-                          rules={{ required: true }}
-                          render={({ field }) => (
-
-                          <PhoneInput 
+        {
+          
+            <div>
+          
+              <Controller
+            
+            control={control}
+                  name={"phone"}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+            
+                    <PhoneInput 
                           defaultCountry={state.countryValue as any}
                           Country={state.countryValue as any}
                           placeholder={t('phone')}
                           value={regnumPhone}
                           ref={field.ref}
                           onChange={value => {
-
-                          if(value){
-                              setRegnumPhone(value);
-                              setPhone(value);
-                          }
-
-                          field.onChange(value); 
+            
+                            if(value){
+                                  setRegnumPhone(value);
+                                  setPhone(value);
+                              }                             
+                             
+                              field.onChange(value); 
                           }}
-                          
+                     
                           />
+               
+                        )}
+              
+              />
+              
+              {errors.phone &&
+                 <TextModel
+                 addons={`text-sm`}
+                 color={TEXT_RED_600}
+                 content={errors.phone}
+                />
+              }
 
-                          )}
-
-                    />
-
-                  {errors.dataRegnum?.regnumPhone &&
-                     <TextModel
-                     addons={`text-sm`}
-                     color={TEXT_RED_600}
-                     content={errors.dataRegnum?.regnumPhone.message}
-                    />
-                  }
           
-
-              </div>
+            </div>
             
             }
             <TermAndServiceCheckBox/>
             
             <PersonTypeCheckBox onClick={handlePersonTypeCLick} />
-
+            
             {state.isPJ && 
-
+            
             <PJFields
-
-             fields={fields}
+            
+            fields={fields}
              register={register} 
              errors={errors}
              control={control}
-             
-             />}
-
-            <Button
+           
+           />}
+           
+           <Button
               
               text = {t('Próximo')}
             />
@@ -287,9 +290,9 @@ export const Register1Form = () => {
 
         </form>
 
-    );
+);
 
 
 
 
-}
+  }

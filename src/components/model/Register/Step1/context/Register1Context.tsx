@@ -11,8 +11,8 @@ export type dataPJ = {
 }
 
 export type DataRegnum = {
-    documentType: string;
-    regnumPhone:string;
+    regnum: string;
+   
 }
  
 export type Register1State = {

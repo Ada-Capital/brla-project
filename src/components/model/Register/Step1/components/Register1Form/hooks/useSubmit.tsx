@@ -79,10 +79,10 @@ export const useSubmit = () => {
 
                 fullName: data.fullname,
                 email: data.email,
-                phone: data.dataRegnum?.regnumPhone,
-                taxIdType: !data.dataPJ ? 'CPF' : 'CNPJ',
+                phone: data.phone,
+                taxIdType: 'REGNUM',
                 country: data.country,
-                regnum: data.dataRegnum?.documentType,
+                regnum: data.dataRegnum?.regnum,
                 birthDate: formatDate(data.birthDate),
          
             }

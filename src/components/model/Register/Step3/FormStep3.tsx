@@ -129,7 +129,7 @@ const FormStep3: React.FC = () => {
                      <ErrorsPassword  errors={customErrors}/>
                     }
 
-                    <Button text = {'PrÃ³ximo'} />
+                    <Button text = {'Próximo'} />
 
                     </form>
                     

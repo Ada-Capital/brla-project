@@ -129,8 +129,8 @@ const FormStep2: React.FC = () => {
     { type: "text", placeholder: "Cidade", name: "city", onChange: handleCity, value: city,register:register  },
     { type: "text", placeholder: "Estado", name: "state", onChange: handleState, value: state,register:register },
     { type: "text", placeholder: "Bairro", name: "street", onChange: handleStreet, value: street,register:register },
-    { type: "text", placeholder: "Complemento", name: "complement", onChange: handleComplement, value: complement,register:register },
     { type: "text", placeholder: "Número", name: "number", onChange: handleNumber, value: number,register:register },
+    { type: "text", placeholder: "Complemento", name: "complement", onChange: handleComplement, value: complement,register:register },
   ];
 
 

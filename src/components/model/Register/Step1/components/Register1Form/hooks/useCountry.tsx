@@ -6,7 +6,8 @@ import { RegisterActions, useRegisterForStep1 } from "../../../context/Register1
 export const useCountry = () => {
 
 
-    const [country, setCountry] = useState('Brasil');
+    const [country, setCountry] = useState('');
+    const [countryValue, setCountryValue] = useState('');
     const {dispatch} = useRegisterForStep1();
 
 
@@ -17,12 +18,19 @@ export const useCountry = () => {
             payload: {country}
         })
 
+
+            dispatch({
+                type:RegisterActions.setCountryValue,
+                payload: {countryValue}
+            })
+
     },[country])
 
     return {
 
         country,
         setCountry,
-
+        countryValue,
+        setCountryValue,
     }
 }

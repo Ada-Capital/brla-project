@@ -2,7 +2,7 @@ import { Controller, useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod";
 import  { Field } from "../../../../Input/InputModel/InputModel";
 import { faEnvelope, faPen, faPerson, faPhone } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../../../Button/Button";
 import { PersonTypeCheckBox } from "../PersonTypeCheckbox/PersonTypeCheckbox";
 import { Register1State, useRegisterForStep1 } from "../../context/Register1Context";
@@ -34,9 +34,10 @@ export const Register1Form = () => {
     const {t, i18n} = useTranslation();
     const {handleCnpjValidation} = useCnpj();
     const {cpf, handleCpfChange, handleCpfValidation} = useCpf();
-    const {handlePhoneChange,phone, handlePhoneValidation} = usePhone();
+    // const {handlePhoneChange,phone, handlePhoneValidation} = usePhone();
     const {submitEvents,RegisterCases} = useSubmit();  
     const [regnumPhone, setRegnumPhone] = useState('');
+    const [phone, setPhone] = useState('');
 
     const navigate = useNavigate();
 
@@ -44,7 +45,7 @@ export const Register1Form = () => {
 
       email: z.string().email(t("Email não pode ser vazio")),
     
-      phone: z.string().min(1, t("O Telefone precisa ser preenchido")).refine(phone => handlePhoneValidation(phone),{message: 'Insira um telefone válido!'}),
+      // phone: z.string().min(1, t("O Telefone precisa ser preenchido")).refine(phone => handlePhoneValidation(phone),{message: 'Insira um telefone válido!'}),
 
       fullname: z.string().min(1,t('O nome não pode ficar vazio')),
 
@@ -149,17 +150,17 @@ export const Register1Form = () => {
         register: register
        
       },
-      { 
+      // { 
 
-        type: "tel",
-        placeholder: t("Celular (11 11111-1111)"), 
-        name: "phone", icon: faPhone, 
-        value: phone, 
-        onChange: handlePhoneChange,
-        register: register
+      //   type: "tel",
+      //   placeholder: t("Celular (11 11111-1111)"), 
+      //   name: "phone", icon: faPhone, 
+      //   value: phone, 
+      //   onChange: handlePhoneChange,
+      //   register: register
        
       
-      },
+      // },
     
     ] : []),
      
@@ -184,10 +185,11 @@ export const Register1Form = () => {
 
       
       if(cases.actions.submitForPf) {
-
+        data.phone = phone
         submitEvents(data, RegisterCases.submitForPf);
 
       } else if(cases.actions.submitForPj) {
+        data.phone = phone
         submitEvents(data, RegisterCases.submitForPj)
 
       } else if(cases.actions.submitForRegnum) {
@@ -202,7 +204,7 @@ export const Register1Form = () => {
 
       
     }
-
+  
 
     return (
 
@@ -217,7 +219,7 @@ export const Register1Form = () => {
 
               />
 
-            {isRegnum(state.country) &&
+            {
 
               <div>
 
@@ -228,7 +230,9 @@ export const Register1Form = () => {
                           rules={{ required: true }}
                           render={({ field }) => (
 
-                          <PhoneInput
+                          <PhoneInput 
+                          defaultCountry={state.countryValue as any}
+                          Country={state.countryValue as any}
                           placeholder={t('phone')}
                           value={regnumPhone}
                           ref={field.ref}
@@ -236,6 +240,7 @@ export const Register1Form = () => {
 
                           if(value){
                               setRegnumPhone(value);
+                              setPhone(value);
                           }
 
                           field.onChange(value); 

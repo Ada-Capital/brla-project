@@ -56,8 +56,8 @@ export const useSubmit = () => {
                 taxIdType: 'CNPJ',
                 country: data.country,
                 cpf: data.cpf,
-                birthDate: data.birthDate,
-                startDate: data.dataPJ?.at(0)?.startDate,
+                birthDate: formatDate(data.birthDate),
+                startDate: formatDate(data.dataPJ?.at(0)?.startDate),
                 companyName:  data.dataPJ?.at(0)?.companyName,
                 cnpj:  data.dataPJ?.at(0)?.cnpj
 
@@ -83,7 +83,7 @@ export const useSubmit = () => {
                 taxIdType: !data.dataPJ ? 'CPF' : 'CNPJ',
                 country: data.country,
                 regnum: data.dataRegnum?.documentType,
-                birthDate: data.birthDate,
+                birthDate: formatDate(data.birthDate),
          
             }
 

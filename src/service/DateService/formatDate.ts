@@ -1,4 +1,9 @@
-export const formatDate = (date: string) => {
+export const formatDate = (date: string | undefined ) => {
+
+    if (!date) {
+        // If the date is null or undefined, return an empty string or a default message
+        return undefined; // or "Date not provided" if you want a default message
+    }
 
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     

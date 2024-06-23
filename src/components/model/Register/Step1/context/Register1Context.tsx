@@ -22,6 +22,7 @@ export type Register1State = {
     isPJ: boolean,
     email: string,
     country: string,
+    countryValue: string,
     birthDate: string;
     cpf: string;
     dataPJ: dataPJ[] | null;
@@ -35,6 +36,7 @@ enum RegisterActions  {
     setPjData,
     setData,
     setCountry,
+    setCountryValue,
 
 
 }
@@ -59,6 +61,7 @@ const initialData : Register1State = {
     isPJ: false,
     email: '',
     country: 'Brasil',
+    countryValue: '',
     birthDate: '',
     cpf: '',
     dataPJ: null,
@@ -93,7 +96,11 @@ const registerReducer = (state:Register1State, action:Action) => {
                 ...state,
                 country: action.payload.country
             }
-
+        case RegisterActions.setCountryValue:
+            return {
+                ...state,
+                countryValue: action.payload.countryValue
+            }
         default:
             return {...state}
 

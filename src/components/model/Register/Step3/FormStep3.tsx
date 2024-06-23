@@ -32,6 +32,8 @@ const FormStep3: React.FC = () => {
     const [passwordChanged, setPasswordChanged] = useState(false);
 
     const [confirmPasswordChanged, setConfirmPasswordChanged] = useState(false);
+    
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const navigate = useNavigate();
 
@@ -86,13 +88,14 @@ const FormStep3: React.FC = () => {
             type: FormActions.setStep3,
             payload: { password, confirmPassword },
         });
+        setIsSubmitted(true);
     };
     
     useEffect(() => {
-        if (state.password && state.confirmPassword) {
+        if (isSubmitted) { // Only proceed if the form has been submitted
             handleRegister();
         }
-    }, [state]);
+    }, [isSubmitted]);
 
     useEffect(()=> {
 

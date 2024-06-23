@@ -23,7 +23,7 @@ interface PFFieldsProps extends RegisterFieldProps<Register1State>{
 export const PFFields = ({fields,register, errors, control}:PFFieldsProps) => {
 
 
-    const {setCountry} = useCountry();
+    const {setCountry,setCountryValue} = useCountry();
     const {state} = useRegisterForStep1();
     const {t, i18n} = useTranslation();
     const {docType, handleDocTypeChange} = useDocumentType();
@@ -47,6 +47,7 @@ render={({ field }) => (
 
         if(value){
           setCountry(value?.label)
+          setCountryValue(value.value.toUpperCase())
         }
  
 

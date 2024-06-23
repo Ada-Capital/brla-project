@@ -27,19 +27,21 @@ export type ExpectedPayInData = {
     payerName: string;
     title: string;
     taxId: string;
-    operationName: string;
+    operationName: string | null;
     amount: number;
     id: string;
     icon: IconProp;
-    feedback : Feedback;
+    feedback: Feedback | null;
     walletAddress: string;
     transfers: any;
-    
+    tx: string | null;
+    coin: string;
+
 }
 
 
 
-export async function getPayInData():Promise<ExpectedPayInData[]> {
+export async function getPayInData(): Promise<ExpectedPayInData[]> {
 
     try {
 
@@ -47,53 +49,52 @@ export async function getPayInData():Promise<ExpectedPayInData[]> {
             withCredentials: true
         });
 
-        
+
         const data = request.data.depositsLogs.map((item: any) => {
-
+        
             
-
+            
             const { createdAt, payerName,coin, chain } = item;
+            const smartContractOps = item.mintOps[0]?.smartContractOps || [];
             const operationName = item.mintOps.reduce((acc: string, op: any) => {
+                if (!op.smartContractOps) return acc;
                 op.smartContractOps.forEach((sm: any) => acc = sm.operationName);
                 return acc;
             }, '');
 
             const title = payerName;
             const icon = faPlus;
-            const smartContractOps = item.mintOps[0].smartContractOps;
             let { id,amount } = item.mintOps[0];
-            
-            const tx = smartContractOps.flatMap((item:any) => item.tx)[0];
-            
-            const feedback = smartContractOps[0].feedback;
 
-          
+            const tx = smartContractOps.length > 0 ? smartContractOps.flatMap((item: any) => item.tx)[0] : null;
+            const feedback = smartContractOps.length > 0 ? smartContractOps[0].feedback : null;
+
             return {
-
+                
                 walletAddress: formatInTaxId(item.taxId),
                 createdAt,
                 title,
                 chain,
                 operationName,
-                amount: ((amount) / TO_WEBSOCKET),
+                amount: (amount / TO_WEBSOCKET),
                 id,
                 icon,
                 feedback,
                 coin,
                 tx: tx,
-
-            };
             
+            };
+        
         });
 
         sessionStorage.setItem(PAY_IN_DATA, JSON.stringify(data));
-        
+
         return data;
 
     } catch (e: any) {
-        
-        throw new Error("Erro ao pegar dados de recebimento: ", e.data?.message || e.message);
-       
+
+        throw new Error("Erro ao pegar dados de recebimento: " + (e.data?.message || e.message));
+
 
     }
 }

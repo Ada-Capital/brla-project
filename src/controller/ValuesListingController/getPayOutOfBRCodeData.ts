@@ -17,31 +17,33 @@ export const getPayOutOfBRCodeData = async () => {
             withCredentials: true
         });
 
-        
-        const data = request.data.brCodePaymentsLogs.map((item:any)=> ({
 
-            createdAt: item.createdAt,
-            title: item.chain,
-            operationName: item.smartContractOps.reduce((acc: string, op: any) => {
-                acc = op.operationName;
-                return acc;
-            }, ''),
-            transfers: {
+        const data = request.data.brCodePaymentsLogs.map((item: any) => {
+            const smartContractOps = item.smartContractOps || [];
 
-                amount: (item.amount - item.fee) / TO_WEBSOCKET,
-                taxId: formatWalletAddress(item.walletAddress),
+            return {
+                createdAt: item.createdAt,
+                title: item.chain,
+                operationName: smartContractOps.length > 0 ? smartContractOps.reduce((acc: string, op: any) => {
+                    acc = op.operationName;
+                    return acc;
+                }, '') : null,
+                transfers: {
 
-            }
+                    amount: (item.amount - item.fee) / TO_WEBSOCKET,
+                    taxId: formatWalletAddress(item.walletAddress),
+
+                }
 
 
 
-        }));
-        
+            }});
+
         return data;
-            
-
-
+   
+   
+   
     } catch(e:any) {
-        throw new Error('Erro ao mapear dados de payout com BRCode: ', e.message || e.data?.message);
+        throw new Error('Erro ao mapear dados de payout com BRCode: ' + (e.message || e.data?.message));
     }
 }
